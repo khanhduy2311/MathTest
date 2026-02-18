@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FingerMath — Luyện Toán Nhanh</title>
+<title>MathBlitz — Luyện Toán Nhanh</title>
 <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Space+Mono:wght@400;700&family=Nunito:wght@400;600;800;900&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -339,6 +339,8 @@
     color: var(--text);
     line-height: 1;
   }
+
+  .timer-text.small-time { font-size: 1.05rem; }
 
   .timer-text small {
     font-size: 0.5rem;
@@ -710,7 +712,7 @@
 <div class="wrapper">
 
   <!-- HOME -->
-  <div class="logo">FingerMath</div>
+  <div class="logo">MathBlitz</div>
   <div class="tagline">⚡ Luyện Toán Tốc Độ Cao ⚡</div>
 
   <div class="card" id="homeScreen">
@@ -751,6 +753,8 @@
           <option value="30" selected>30 giây</option>
           <option value="45">45 giây</option>
           <option value="60">60 giây</option>
+          <option value="90">90 giây</option>
+          <option value="120">2 phút</option>
         </select>
       </div>
     </div>
@@ -844,7 +848,7 @@
       </div>
     </div>
 
-    <button class="btn-replay" onclick="replayGame()">LÀM LẠI</button>
+    <button class="btn-replay" onclick="replayGame()">🔄 CHƠI LẠI</button>
     <button class="btn-home" onclick="goHome()">← VỀ TRANG CHỦ</button>
   </div>
 
@@ -942,7 +946,10 @@ function startTimer() {
 }
 
 function updateTimerUI() {
-  document.getElementById('timerNum').textContent = timeLeft;
+  document.getElementById('timerNum').textContent = timeLeft >= 60
+    ? Math.floor(timeLeft/60) + ':' + String(timeLeft%60).padStart(2,'0')
+    : timeLeft;
+  document.querySelector('.timer-text').className = 'timer-text' + (timeLeft >= 60 ? ' small-time' : '');
   const circ = document.getElementById('timerCircle');
   const pct = timeLeft / timePerQ;
   circ.style.strokeDashoffset = 245 * (1 - pct);
